@@ -1,0 +1,23 @@
+{
+    "dataset": "Malicious URLs Dataset",
+    "variable_mappings": [
+        {
+            "variable_name": "url",
+            "variable_type": "FREE_FORM_TEXT",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "dummy_cat",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        }
+    ],
+    "label_mappings": {
+        "FRAUD": [
+            "malignant"
+        ],
+        "LEGIT": [
+            "benign"
+        ]
+    }
+}

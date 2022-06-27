@@ -1,0 +1,93 @@
+{
+    "dataset": "Twitter Bots Accounts",
+    "variable_mappings": [
+        {
+            "variable_name": "default_profile",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "default_profile_image",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "description",
+            "variable_type": "FREE_FORM_TEXT",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "favourites_count",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "followers_count",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "friends_count",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "geo_enabled",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "lang",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "location",
+            "variable_type": "FREE_FORM_TEXT",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "profile_background_image_url",
+            "variable_type": "FREE_FORM_TEXT",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "profile_image_url",
+            "variable_type": "FREE_FORM_TEXT",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "screen_name",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "statuses_count",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "verified",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "average_tweets_per_day",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "account_age_days",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        }
+    ],
+    "label_mappings": {
+        "FRAUD": [
+            "bot"
+        ],
+        "LEGIT": [
+            "human"
+        ]
+    }
+}

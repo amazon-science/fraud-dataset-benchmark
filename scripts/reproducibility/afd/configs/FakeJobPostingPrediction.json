@@ -1,0 +1,93 @@
+{
+    "dataset": "Fake Job Posting Prediction", 
+    "variable_mappings": [
+        {
+            "variable_name": "title",
+            "variable_type": "FREE_FORM_TEXT",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "location",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "department",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "salary_range",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "company_profile",
+            "variable_type": "FREE_FORM_TEXT",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "description",
+            "variable_type": "FREE_FORM_TEXT",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "requirements",
+            "variable_type": "FREE_FORM_TEXT",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "benefits",
+            "variable_type": "FREE_FORM_TEXT",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "telecommuting",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "has_company_logo",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "has_questions",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "employment_type",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "required_experience",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "required_education",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "industry",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "function",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        }
+    ],
+    "label_mappings": {
+        "FRAUD": [
+            "1"
+        ],
+        "LEGIT": [
+            "0"
+        ]
+    }
+}

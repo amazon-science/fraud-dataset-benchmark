@@ -1,0 +1,43 @@
+{
+    "dataset": "Fraud ecommerce",
+    "variable_mappings": [
+        {
+            "variable_name": "purchase_value",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "source",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "browser",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "age",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "ip_address",
+            "variable_type": "IP_ADDRESS",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "time_since_signup",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        }
+    ],
+    "label_mappings": {
+        "FRAUD": [
+            "1"
+        ],
+        "LEGIT": [
+            "0"
+        ]
+    }
+}

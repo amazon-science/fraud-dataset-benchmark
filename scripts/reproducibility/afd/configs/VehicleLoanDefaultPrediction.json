@@ -1,0 +1,203 @@
+{
+    "dataset": "Vehicle Loan Default Prediction",
+    "variable_mappings": [
+        {
+            "variable_name": "disbursed_amount",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "asset_cost",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "ltv",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "branch_id",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "supplier_id",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "manufacturer_id",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "current_pincode_id",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "date_of_birth",
+            "variable_type": "FREE_FORM_TEXT",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "employment_type",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "state_id",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "employee_code_id",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "mobileno_avl_flag",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "aadhar_flag",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "pan_flag",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "voterid_flag",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "driving_flag",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "passport_flag",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "perform_cns_score",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "perform_cns_score_description",
+            "variable_type": "FREE_FORM_TEXT",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "pri_no_of_accts",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "pri_active_accts",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "pri_overdue_accts",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "pri_current_balance",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "pri_sanctioned_amount",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "pri_disbursed_amount",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "sec_no_of_accts",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "sec_active_accts",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "sec_overdue_accts",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "sec_current_balance",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "sec_sanctioned_amount",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "sec_disbursed_amount",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "primary_instal_amt",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "sec_instal_amt",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "new_accts_in_last_six_months",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "delinquent_accts_in_last_six_months",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "average_acct_age",
+            "variable_type": "FREE_FORM_TEXT",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "credit_history_length",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "no_of_inquiries",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        }
+    ],
+    "label_mappings": {
+        "FRAUD": [
+            "1"
+        ],
+        "LEGIT": [
+            "0"
+        ]
+    }
+}

@@ -1,0 +1,348 @@
+{
+    "dataset": "IEEE-CIS Fraud Detection",
+    "variable_mappings": [
+        {
+            "variable_name": "transactionamt",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "productcd",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "card1",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "card2",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "card3",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "card5",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "card6",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "addr1",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "dist1",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "p_emaildomain",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "r_emaildomain",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "c1",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "c2",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "c4",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "c5",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "c6",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "c7",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "c8",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "c9",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "c10",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "c11",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "c12",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "c13",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "c14",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v62",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v70",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v76",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v78",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v82",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v91",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v127",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v130",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v139",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v160",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v165",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v187",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v203",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v207",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v209",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v210",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v221",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v234",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v257",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v258",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v261",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v264",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v266",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v267",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v271",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v274",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v277",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v283",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v285",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v289",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v291",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "v294",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "id_01",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "id_02",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "id_05",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "id_06",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "id_09",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "id_13",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "id_17",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "id_19",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "id_20",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "devicetype",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "deviceinfo",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        }
+    ],
+    "label_mappings": {
+        "FRAUD": [
+            "1"
+        ],
+        "LEGIT": [
+            "0"
+        ]
+    }
+}

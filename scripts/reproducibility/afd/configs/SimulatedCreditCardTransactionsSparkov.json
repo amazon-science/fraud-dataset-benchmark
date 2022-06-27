@@ -1,0 +1,98 @@
+{
+    "dataset": "Simulated Credit Card Transactions generated using Sparkov",
+    "variable_mappings": [
+        {
+            "variable_name": "cc_num",
+            "variable_type": "CARD_BIN",
+            "data_type": "INTEGER"
+        },
+        {
+            "variable_name": "category",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "amt",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "first",
+            "variable_type": "BILLING_NAME",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "last",
+            "variable_type": "BILLING_NAME",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "gender",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "street",
+            "variable_type": "BILLING_ADDRESS_L1",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "city",
+            "variable_type": "BILLING_CITY",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "state",
+            "variable_type": "BILLING_STATE",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "zip",
+            "variable_type": "BILLING_ZIP",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "lat",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "long",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "city_pop",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "job",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "dob",
+            "variable_type": "FREE_FORM_TEXT",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "merch_lat",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        },
+        {
+            "variable_name": "merch_long",
+            "variable_type": "NUMERIC",
+            "data_type": "FLOAT"
+        }
+    ],
+    "label_mappings": {
+        "FRAUD": [
+            "1"
+        ],
+        "LEGIT": [
+            "0"
+        ]
+    }
+}

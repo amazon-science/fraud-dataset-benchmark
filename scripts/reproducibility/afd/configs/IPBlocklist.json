@@ -1,0 +1,23 @@
+{
+    "dataset": "IP-BlockList",
+    "variable_mappings": [
+        {
+            "variable_name": "ip",
+            "variable_type": "IP_ADDRESS",
+            "data_type": "STRING"
+        },
+        {
+            "variable_name": "dummy_cat",
+            "variable_type": "CATEGORICAL",
+            "data_type": "STRING"
+        }
+    ],
+    "label_mappings": {
+        "FRAUD": [
+            "1"
+        ],
+        "LEGIT": [
+            "0"
+        ]
+    }
+}
