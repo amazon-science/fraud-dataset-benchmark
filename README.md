@@ -52,7 +52,7 @@ scipy==1.5.4
 ```
 
 ### Step 1: Setup Kaggle CLI
-The `FraudBenchmarkDataset` object is going to load datasets from the source (which in most of the cases is Kaggle), and then it will modify/standardize on the fly, and provide train-test splits. So, the first step is to setup Kaggle CLI in the machine being used to run Python.
+The `FraudDatasetBenchmark` object is going to load datasets from the source (which in most of the cases is Kaggle), and then it will modify/standardize on the fly, and provide train-test splits. So, the first step is to setup Kaggle CLI in the machine being used to run Python.
 
 Use intructions from [How to Use Kaggle](https://www.kaggle.com/docs/api) guide. The steps include:
 
@@ -66,16 +66,16 @@ Once Kaggle CLI is setup and installed, clone the github repo using `git clone h
 Once repo is cloned, from your terminal, `cd` to the repo and type `pip install .`, which will install the required classes and methods.
 
 
-## FraudBenchmarkDataset Usage
-The usage is straightforward, where you create a `dataset` object of `FraudBenchmarkDataset` class, and extract useful goodies like train/test splits and eval_metrics.   
+## FraudDatasetBenchmark Usage
+The usage is straightforward, where you create a `dataset` object of `FraudDatasetBenchmark` class, and extract useful goodies like train/test splits and eval_metrics.   
 
 ```
-from fdb.datasets import FraudBenchmarkDataset
+from fdb.datasets import FraudDatasetBenchmark
 
 # all_keys = ['fakejob', 'vechicleloan', 'malurl', 'ieeecis', 'ccfraud','fraudecom', 'twitterbot', 'ipblock'] 
 key = 'ipblock
 
-obj = FraudBenchmarkDataset(key=key)
+obj = FraudDatasetBenchmark(key=key)
 print(obj.key)
 
 print('Train set: ')
@@ -91,10 +91,10 @@ print('Test scores')
 display(obj.test_labels.head())
 print(obj.test_labels['EVENT_LABEL'].value_counts())
 print(obj.train['EVENT_LABEL'].value_counts(normalize=True))
-print('=========','\n')
+print('=========')
 
 ``` 
-Notebook template to load dataset using FDB data-loader is available at [fdb/examples/Test_FDB_Loader.ipynb](fdb/examples/Test_FDB_Loader.ipynb)
+Notebook template to load dataset using FDB data-loader is available at [scripts/examples/Test_FDB_Loader.ipynb](scripts/examples/Test_FDB_Loader.ipynb)
 
 ## Reproducibility
 Reproducibility scripts are available at [scripts/reproducibility/](scripts/reproducibility/) in respective folders for [afd](scripts/reproducibility/afd), [autogluon](scripts/reproducibility/autogluon) and [h2o](scripts/reproducibility/h2o). Each folder also had README with steps to reproduce.

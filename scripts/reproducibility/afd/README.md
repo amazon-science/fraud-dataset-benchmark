@@ -30,6 +30,11 @@ python score_afd_model.py
 ```
 This will print performance metrics in terminal as well as save in S3 location you provide in the script.
 
+After a model training is completed, AFD console would show performance metrics like following (trained on `ieeecis` with ONLINE_FRAUD_INSIGHTS).
+
+![ieee ofi sample](../../../images/ieee_ofi_sample.png)
+
+
 
 **In order to fully deep dive into working of Amazon Fraud Detector, [here](https://d1.awsstatic.com/fraud-detector/afd-technical-guide-detecting-new-account-fraud.pdf) is the link to technical guide.**
 

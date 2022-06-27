@@ -3,7 +3,7 @@ from fdb.preprocessing import *
 from fdb.preprocessing_objects import load_data
 from sklearn.metrics import roc_auc_score, roc_curve, auc
 
-class FraudBenchmarkDataset(ABC):
+class FraudDatasetBenchmark(ABC):
     def __init__(self, key):
         self.key = key
         self.obj = load_data(self.key)

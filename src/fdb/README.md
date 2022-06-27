@@ -4,15 +4,27 @@
 ### Package Usage
 
 ```
-# keys = ['fakejob', 'vechicleloan', 'malurl', 'ieee', 'ccfraud','fraudecom', 'twitterbot']
-from fdb.datasets import FraudBenchmarkDataset
-dataset = FraudBenchmarkDataset(key = 'fakejob')
+from fdb.datasets import FraudDatasetBenchmark
 
-train_dataset = dataset.train  # pandas dataframe of train dataset
-test_dataset = dataset.test  # pandas dataframe of test dataset
+# all_keys = ['fakejob', 'vechicleloan', 'malurl', 'ieeecis', 'ccfraud','fraudecom', 'twitterbot', 'ipblock'] 
+key = 'ipblock
 
-eval_metrics = dataset.eval(y_true, y_pred) # evaluator
+obj = FraudDatasetBenchmark(key=key)
+print(obj.key)
 
-print(dataset.automl_performance) # evaluation metrics on test data trained using  
+print('Train set: ')
+display(obj.train.head())
+print(len(obj.train.columns))
+print(obj.train.shape)
+
+print('Test set: ')
+display(obj.test.head())
+print(obj.test.shape)
+
+print('Test scores')
+display(obj.test_labels.head())
+print(obj.test_labels['EVENT_LABEL'].value_counts())
+print(obj.train['EVENT_LABEL'].value_counts(normalize=True))
+print('=========')
 
 ``` 
