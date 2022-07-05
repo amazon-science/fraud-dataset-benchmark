@@ -1,23 +1,11 @@
-import numpy as np
 import pandas as pd
-import csv
-import io
 import os
-import multiprocessing as mp
 import gc
-import random
-import joblib
-import json
-import re
-import subprocess
 import joblib
 import datetime
-import glob
 
 import matplotlib as mpl
-from sklearn.model_selection import train_test_split
-from catboost import CatBoostClassifier, Pool
-from sklearn.metrics import roc_auc_score, roc_curve, recall_score, precision_recall_curve
+from sklearn.metrics import roc_auc_score, roc_curve
 
 mpl.rcParams['figure.dpi'] = 150
 pd.set_option('display.max_columns', 500)
@@ -34,7 +22,6 @@ logger.setLevel(logging.DEBUG)
 
 import sys
 sys.path.append('../')
-import benchmark_utils
 from benchmark_utils import load_data, get_recall
 
 from autogluon.tabular import TabularPredictor
@@ -55,12 +42,7 @@ def run_ag(dataset, base_path, time_limit=3600, presets=None, hyperparameters=No
     predictor = TabularPredictor(label='EVENT_LABEL', eval_metric='roc_auc', path=f"{base_path}/{dataset}/AutogluonModels/{folder}/", 
                                  verbosity=verbosity)
     predictor.fit(df_train[features + ['EVENT_LABEL'] ], 
-    #               tuning_data=df_eval[ip_feature + email_feature + numeric_features + profile_features + categorical_features + ['EVENT_LABEL'] ],
                   time_limit=time_limit, presets=presets, hyperparameters=hyperparameters, feature_metadata=feature_metadata)
-    
-#     refit_models = predictor.refit_full()
-    
-#     predictor.fit_summary()
 
     leaderboard = predictor.leaderboard(df_test[features + ['EVENT_LABEL'] ])
 
@@ -78,7 +60,7 @@ def run_ag(dataset, base_path, time_limit=3600, presets=None, hyperparameters=No
     fpr, tpr, thresholds = roc_curve(df_test['EVENT_LABEL'], df_pred, 
                                      pos_label=pos_label)
     
-    y_true, y_prob = df_test['EVENT_LABEL'], df_pred
+    y_true = df_test['EVENT_LABEL']
     y_true = (y_true==pos_label)
     
     recall = get_recall(fpr, tpr, fpr_target=0.01)
