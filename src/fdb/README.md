@@ -7,7 +7,7 @@
 from fdb.datasets import FraudDatasetBenchmark
 
 # all_keys = ['fakejob', 'vechicleloan', 'malurl', 'ieeecis', 'ccfraud','fraudecom', 'twitterbot', 'ipblock'] 
-key = 'ipblock
+key = 'ipblock'
 
 obj = FraudDatasetBenchmark(key=key)
 print(obj.key)
