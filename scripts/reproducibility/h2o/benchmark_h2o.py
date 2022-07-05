@@ -1,23 +1,10 @@
-import numpy as np
 import pandas as pd
-import csv
-import io
 import os
-import multiprocessing as mp
 import gc
-import random
 import joblib
-import json
-import re
-import subprocess
-import joblib
-import datetime
-import glob
 
 import matplotlib as mpl
-from sklearn.model_selection import train_test_split
-from catboost import CatBoostClassifier, Pool
-from sklearn.metrics import roc_auc_score, roc_curve, recall_score, precision_recall_curve
+from sklearn.metrics import roc_auc_score, roc_curve
 
 mpl.rcParams['figure.dpi'] = 150
 pd.set_option('display.max_columns', 500)
@@ -34,7 +21,6 @@ logger.setLevel(logging.DEBUG)
 
 import sys
 sys.path.append('../')
-import benchmark_utils
 from benchmark_utils import load_data, get_recall
 
 import h2o
@@ -42,7 +28,7 @@ from h2o.automl import H2OAutoML
     
 def run_h2o(dataset, base_path, connect_url=None, time_limit=None, include_algos=None, exclude_algos=None, verbosity="info", seed=10):
     if connect_url is not None:
-        connect_type2 = h2o.connect(url=connect_url, https=True, verbose=True)
+        _ = h2o.connect(url=connect_url, https=True, verbose=True)
         h2o.cluster().show_status(True)
     else:
         h2o.init()
@@ -59,19 +45,15 @@ def run_h2o(dataset, base_path, connect_url=None, time_limit=None, include_algos
     df_test_h2o['EVENT_LABEL'] = df_test_h2o['EVENT_LABEL'].asfactor()
         
     aml = H2OAutoML(max_runtime_secs = time_limit, seed = seed,
-#                  keep_cross_validation_predictions=True,
-#                 keep_cross_validation_models=True,
-#                 keep_cross_validation_fold_assignment=True,
                      include_algos=include_algos,
                      exclude_algos=exclude_algos,
                  export_checkpoints_dir=f"{base_path}/{dataset}/H2OModels/",
                  verbosity=verbosity)
     
+    # use validation error in the leaderboard to avoid leakage when calling aml.predict
     aml.train(x = features, 
           y = 'EVENT_LABEL', 
-          training_frame = df_train_h2o, 
-#           validation_frame=df_eval_h2o,
-#           leaderboard_frame=df_test_h2o, # use validation error in the leaderboard to avoid leakage when calling aml.predict
+          training_frame = df_train_h2o,  
              )
     
     lb = aml.leaderboard
@@ -97,7 +79,7 @@ def run_h2o(dataset, base_path, connect_url=None, time_limit=None, include_algos
     fpr, tpr, thresholds = roc_curve(df_test['EVENT_LABEL'].astype(str), df_pred_h2o, 
                                      pos_label=pos_label)
     
-    y_true, y_prob = df_test['EVENT_LABEL'], df_pred_h2o
+    y_true = df_test['EVENT_LABEL']
     y_true = (y_true.astype(str)==pos_label)
     
     recall = get_recall(fpr, tpr, fpr_target=0.01)
