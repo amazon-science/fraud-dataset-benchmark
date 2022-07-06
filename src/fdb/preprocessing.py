@@ -33,7 +33,7 @@ _LABEL_TIMESTAMP = 'LABEL_TIMESTAMP'  # added in a cases where entity id is mean
 _RANDOM_STATE = 1
 _CWD = os.getcwd()
 _DOWNLOAD_LOCATION = os.path.join(_CWD, 'tmp')
-_TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
+_TIMESTAMP_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
 _DEFAULT_LABEL_TIMESTAMP = datetime.now().strftime(_TIMESTAMP_FORMAT)
 
 
@@ -89,7 +89,7 @@ class BasePreProcessor(ABC):
             
             # If filename is give, download single file,
             # Else download all files.
-            if KAGGLE_CONFIGS[self.key].get("filename"):
+            if KAGGLE_CONFIGS[self.key].get('filename'):
                 
                 file_name = KAGGLE_CONFIGS[self.key]['filename']
                 response = kaggle.api.datasets_download_file(
@@ -386,13 +386,13 @@ class IEEEPreProcessor(BasePreProcessor):
 
     def subset_features(self):
         features_to_select = \
-         ["transactionamt", "productcd", "card1", "card2", "card3", "card5", "card6", "addr1", "dist1", 
-         "p_emaildomain", "r_emaildomain", "c1", "c2", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "c11", 
-         "c12", "c13", "c14", "v62", "v70", "v76", "v78", "v82", "v91", "v127", "v130", "v139", "v160", 
-         "v165", "v187", "v203", "v207", "v209", "v210", "v221", "v234", "v257", "v258", "v261", "v264", 
-         "v266", "v267", "v271", "v274", "v277", "v283", "v285", "v289", "v291", "v294", "id_01", "id_02", 
-         "id_05", "id_06", "id_09", "id_13", "id_17", "id_19", "id_20", "devicetype", "deviceinfo",
-         "EVENT_TIMESTAMP", "ENTITY_ID", "ENTITY_TYPE", "EVENT_ID", "EVENT_LABEL", "LABEL_TIMESTAMP"]
+         ['transactionamt', 'productcd', 'card1', 'card2', 'card3', 'card5', 'card6', 'addr1', 'dist1',
+         'p_emaildomain', 'r_emaildomain', 'c1', 'c2', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9', 'c10', 'c11',
+         'c12', 'c13', 'c14', 'v62', 'v70', 'v76', 'v78', 'v82', 'v91', 'v127', 'v130', 'v139', 'v160',
+         'v165', 'v187', 'v203', 'v207', 'v209', 'v210', 'v221', 'v234', 'v257', 'v258', 'v261', 'v264',
+         'v266', 'v267', 'v271', 'v274', 'v277', 'v283', 'v285', 'v289', 'v291', 'v294', 'id_01', 'id_02',
+         'id_05', 'id_06', 'id_09', 'id_13', 'id_17', 'id_19', 'id_20', 'devicetype', 'deviceinfo',
+         'EVENT_TIMESTAMP', 'ENTITY_ID', 'ENTITY_TYPE', 'EVENT_ID', 'EVENT_LABEL', 'LABEL_TIMESTAMP']
         self.df = self.df[features_to_select]  
 
     def preprocess(self):
