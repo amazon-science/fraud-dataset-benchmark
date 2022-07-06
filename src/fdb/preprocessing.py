@@ -29,6 +29,15 @@ _EVENT_ID = 'EVENT_ID'  # transaction/event id
 _ENTITY_ID = 'ENTITY_ID'  # represents user/account id
 _LABEL_TIMESTAMP = 'LABEL_TIMESTAMP'  # added in a cases where entity id is meaninful
 
+# Kaggle config related strings
+_OWNER = 'owner'
+_COMPETITIONS = 'competitions'
+_TYPE = 'type'
+_FILENAME = 'filename'
+_DATASETS = 'datasets'
+_DATASET = 'dataset'
+_VERSION = 'version'
+
 # Some fixed parameters
 _RANDOM_STATE = 1
 _CWD = os.getcwd()
@@ -68,47 +77,57 @@ class BasePreProcessor(ABC):
         self.train_test_split()
 
 
+    def _download_kaggle_data_from_competetions(self):
+        file_name = KAGGLE_CONFIGS[self.key][_OWNER]
+        kaggle.api.competition_download_files(
+            competition = KAGGLE_CONFIGS[self.key][_OWNER],
+            path = _DOWNLOAD_LOCATION
+        )
+        return file_name
+
+    def _download_kaggle_data_from_datasets_with_given_filename(self):
+        file_name = KAGGLE_CONFIGS[self.key][_FILENAME]
+        response = kaggle.api.datasets_download_file(
+            owner_slug = KAGGLE_CONFIGS[self.key][_OWNER],
+            dataset_slug = KAGGLE_CONFIGS[self.key][_DATASET],
+            file_name = file_name,
+            dataset_version_number=KAGGLE_CONFIGS[self.key][_VERSION],
+            _preload_content = False,
+        )
+        with open(os.path.join(_DOWNLOAD_LOCATION, file_name + '.zip'), 'wb') as f:
+            f.write(response.data)
+        return file_name
+
+    def _download_kaggle_data_from_datasets_containing_single_file(self):
+        file_name = KAGGLE_CONFIGS[self.key][_DATASET]
+        kaggle.api.dataset_download_files(
+            dataset = os.path.join(KAGGLE_CONFIGS[self.key][_OWNER], KAGGLE_CONFIGS[self.key][_DATASET]),
+            path = _DOWNLOAD_LOCATION
+        )
+        return file_name
+
     def download_kaggle_data(self):
         """
         Download and extract the data from Kaggle. Puts the data in tmp directory within current directory.
         """
+
         if not os.path.exists(_DOWNLOAD_LOCATION):
             os.mkdir(_DOWNLOAD_LOCATION)
 
         print('Data download location', _DOWNLOAD_LOCATION)
-        
-        if KAGGLE_CONFIGS[self.key]['type'] == 'competitions':
             
-            file_name = KAGGLE_CONFIGS[self.key]['owner']
-            kaggle.api.competition_download_files(
-                competition = KAGGLE_CONFIGS[self.key]['owner'],
-                path = _DOWNLOAD_LOCATION
-            )
         
-        elif KAGGLE_CONFIGS[self.key]['type'] == 'datasets':
-            
-            # If filename is give, download single file,
+        if KAGGLE_CONFIGS[self.key][_TYPE] == _COMPETITIONS:
+            file_name = self._download_kaggle_data_from_competetions()
+                 
+        elif KAGGLE_CONFIGS[self.key][_TYPE] == _DATASETS:
+            # If filename is given, download single file,
             # Else download all files.
-            if KAGGLE_CONFIGS[self.key].get('filename'):
-                
-                file_name = KAGGLE_CONFIGS[self.key]['filename']
-                response = kaggle.api.datasets_download_file(
-                    owner_slug = KAGGLE_CONFIGS[self.key]['owner'],
-                    dataset_slug = KAGGLE_CONFIGS[self.key]['dataset'],
-                    file_name = file_name,
-                    dataset_version_number=KAGGLE_CONFIGS[self.key]['version'],
-                    _preload_content = False,
-                )
-                with open(os.path.join(_DOWNLOAD_LOCATION, file_name + '.zip'), 'wb') as f:
-                    f.write(response.data)
+            if KAGGLE_CONFIGS[self.key].get(_FILENAME):
+                file_name = self._download_kaggle_data_from_datasets_with_given_filename()
             else:
+                file_name = self._download_kaggle_data_from_datasets_containing_single_file()
                 
-                file_name = KAGGLE_CONFIGS[self.key]['dataset']
-                kaggle.api.dataset_download_files(
-                    dataset = os.path.join(KAGGLE_CONFIGS[self.key]['owner'], KAGGLE_CONFIGS[self.key]['dataset']),
-                    path = _DOWNLOAD_LOCATION
-                )
-
         else:
             raise ValueError('Type should be among competetions or datasets in config')
         
