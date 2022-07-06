@@ -34,7 +34,7 @@ _RANDOM_STATE = 1
 _CWD = os.getcwd()
 _DOWNLOAD_LOCATION = os.path.join(_CWD, 'tmp')
 _TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
-_DEFAULT_LABEL_TIMESTAMP = '2022-06-01T20:30:04Z'
+_DEFAULT_LABEL_TIMESTAMP = datetime.now().strftime(_TIMESTAMP_FORMAT)
 
 
 class BasePreProcessor(ABC):
