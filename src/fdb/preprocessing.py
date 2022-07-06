@@ -1,9 +1,7 @@
 
 
-from dataclasses import dataclass
 import os
 import re
-import json
 import shutil
 import kaggle
 import requests
@@ -15,7 +13,7 @@ from faker import Faker
 from io import StringIO
 from datetime import datetime
 from datetime import timedelta
-from abc import abstractmethod, ABC
+from abc import ABC
 from dateutil.relativedelta import relativedelta
 
 from fdb.kaggle_configs import KAGGLE_CONFIGS
@@ -31,12 +29,21 @@ _EVENT_ID = 'EVENT_ID'  # transaction/event id
 _ENTITY_ID = 'ENTITY_ID'  # represents user/account id
 _LABEL_TIMESTAMP = 'LABEL_TIMESTAMP'  # added in a cases where entity id is meaninful
 
+# Kaggle config related strings
+_OWNER = 'owner'
+_COMPETITIONS = 'competitions'
+_TYPE = 'type'
+_FILENAME = 'filename'
+_DATASETS = 'datasets'
+_DATASET = 'dataset'
+_VERSION = 'version'
+
 # Some fixed parameters
 _RANDOM_STATE = 1
 _CWD = os.getcwd()
 _DOWNLOAD_LOCATION = os.path.join(_CWD, 'tmp')
-_TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
-_DEFAULT_LABEL_TIMESTAMP = '2022-06-01T20:30:04Z'
+_TIMESTAMP_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
+_DEFAULT_LABEL_TIMESTAMP = datetime.now().strftime(_TIMESTAMP_FORMAT)
 
 
 class BasePreProcessor(ABC):
@@ -70,47 +77,57 @@ class BasePreProcessor(ABC):
         self.train_test_split()
 
 
+    def _download_kaggle_data_from_competetions(self):
+        file_name = KAGGLE_CONFIGS[self.key][_OWNER]
+        kaggle.api.competition_download_files(
+            competition = KAGGLE_CONFIGS[self.key][_OWNER],
+            path = _DOWNLOAD_LOCATION
+        )
+        return file_name
+
+    def _download_kaggle_data_from_datasets_with_given_filename(self):
+        file_name = KAGGLE_CONFIGS[self.key][_FILENAME]
+        response = kaggle.api.datasets_download_file(
+            owner_slug = KAGGLE_CONFIGS[self.key][_OWNER],
+            dataset_slug = KAGGLE_CONFIGS[self.key][_DATASET],
+            file_name = file_name,
+            dataset_version_number=KAGGLE_CONFIGS[self.key][_VERSION],
+            _preload_content = False,
+        )
+        with open(os.path.join(_DOWNLOAD_LOCATION, file_name + '.zip'), 'wb') as f:
+            f.write(response.data)
+        return file_name
+
+    def _download_kaggle_data_from_datasets_containing_single_file(self):
+        file_name = KAGGLE_CONFIGS[self.key][_DATASET]
+        kaggle.api.dataset_download_files(
+            dataset = os.path.join(KAGGLE_CONFIGS[self.key][_OWNER], KAGGLE_CONFIGS[self.key][_DATASET]),
+            path = _DOWNLOAD_LOCATION
+        )
+        return file_name
+
     def download_kaggle_data(self):
         """
         Download and extract the data from Kaggle. Puts the data in tmp directory within current directory.
         """
+
         if not os.path.exists(_DOWNLOAD_LOCATION):
             os.mkdir(_DOWNLOAD_LOCATION)
 
         print('Data download location', _DOWNLOAD_LOCATION)
-        
-        if KAGGLE_CONFIGS[self.key]['type'] == 'competitions':
             
-            file_name = KAGGLE_CONFIGS[self.key]['owner']
-            kaggle.api.competition_download_files(
-                competition = KAGGLE_CONFIGS[self.key]['owner'],
-                path = _DOWNLOAD_LOCATION
-            )
         
-        elif KAGGLE_CONFIGS[self.key]['type'] == 'datasets':
-            
-            # If filename is give, download single file,
+        if KAGGLE_CONFIGS[self.key][_TYPE] == _COMPETITIONS:
+            file_name = self._download_kaggle_data_from_competetions()
+                 
+        elif KAGGLE_CONFIGS[self.key][_TYPE] == _DATASETS:
+            # If filename is given, download single file,
             # Else download all files.
-            if KAGGLE_CONFIGS[self.key].get("filename"):
-                
-                file_name = KAGGLE_CONFIGS[self.key]['filename']
-                response = kaggle.api.datasets_download_file(
-                    owner_slug = KAGGLE_CONFIGS[self.key]['owner'],
-                    dataset_slug = KAGGLE_CONFIGS[self.key]['dataset'],
-                    file_name = file_name,
-                    dataset_version_number=KAGGLE_CONFIGS[self.key]['version'],
-                    _preload_content = False,
-                )
-                with open(os.path.join(_DOWNLOAD_LOCATION, file_name + '.zip'), 'wb') as f:
-                    f.write(response.data)
+            if KAGGLE_CONFIGS[self.key].get(_FILENAME):
+                file_name = self._download_kaggle_data_from_datasets_with_given_filename()
             else:
+                file_name = self._download_kaggle_data_from_datasets_containing_single_file()
                 
-                file_name = KAGGLE_CONFIGS[self.key]['dataset']
-                kaggle.api.dataset_download_files(
-                    dataset = os.path.join(KAGGLE_CONFIGS[self.key]['owner'], KAGGLE_CONFIGS[self.key]['dataset']),
-                    path = _DOWNLOAD_LOCATION
-                )
-
         else:
             raise ValueError('Type should be among competetions or datasets in config')
         
@@ -209,7 +226,7 @@ class BasePreProcessor(ABC):
         if self.timestamp_col:
             self.sort_by_timestamp()
 
-    def train_test_split(self, train_percentage = 0.8):
+    def train_test_split(self):
         """
         Default setting is out of time with 80%-20% into training and testing respectively
         """
@@ -384,17 +401,17 @@ class IEEEPreProcessor(BasePreProcessor):
     def standardize_timestamp_col(self):
         self.df[_EVENT_TIMESTAMP] = self.df[self.timestamp_col].apply(lambda x: IEEEPreProcessor._add_seconds(x))        
         self.df.drop(self.timestamp_col, axis=1, inplace=True)
-        self.df['LABEL_TIMESTAMP'] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
+        self.df[_LABEL_TIMESTAMP] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
 
     def subset_features(self):
         features_to_select = \
-         ["transactionamt", "productcd", "card1", "card2", "card3", "card5", "card6", "addr1", "dist1", 
-         "p_emaildomain", "r_emaildomain", "c1", "c2", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "c11", 
-         "c12", "c13", "c14", "v62", "v70", "v76", "v78", "v82", "v91", "v127", "v130", "v139", "v160", 
-         "v165", "v187", "v203", "v207", "v209", "v210", "v221", "v234", "v257", "v258", "v261", "v264", 
-         "v266", "v267", "v271", "v274", "v277", "v283", "v285", "v289", "v291", "v294", "id_01", "id_02", 
-         "id_05", "id_06", "id_09", "id_13", "id_17", "id_19", "id_20", "devicetype", "deviceinfo",
-         "EVENT_TIMESTAMP", "ENTITY_ID", "ENTITY_TYPE", "EVENT_ID", "EVENT_LABEL", "LABEL_TIMESTAMP"]
+         ['transactionamt', 'productcd', 'card1', 'card2', 'card3', 'card5', 'card6', 'addr1', 'dist1',
+         'p_emaildomain', 'r_emaildomain', 'c1', 'c2', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9', 'c10', 'c11',
+         'c12', 'c13', 'c14', 'v62', 'v70', 'v76', 'v78', 'v82', 'v91', 'v127', 'v130', 'v139', 'v160',
+         'v165', 'v187', 'v203', 'v207', 'v209', 'v210', 'v221', 'v234', 'v257', 'v258', 'v261', 'v264',
+         'v266', 'v267', 'v271', 'v274', 'v277', 'v283', 'v285', 'v289', 'v291', 'v294', 'id_01', 'id_02',
+         'id_05', 'id_06', 'id_09', 'id_13', 'id_17', 'id_19', 'id_20', 'devicetype', 'deviceinfo',
+         'EVENT_TIMESTAMP', 'ENTITY_ID', 'ENTITY_TYPE', 'EVENT_ID', 'EVENT_LABEL', 'LABEL_TIMESTAMP']
         self.df = self.df[features_to_select]  
 
     def preprocess(self):
@@ -447,7 +464,7 @@ class FraudecomPreProcessor(BasePreProcessor):
         self.df.drop(self.timestamp_col, axis=1, inplace=True)
 
         # Also add _LABEL_TIMESTAMP to allow training of this dataset with TFI
-        self.df['LABEL_TIMESTAMP'] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
+        self.df[_LABEL_TIMESTAMP] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
 
     def process_ip(self):
         """
@@ -508,7 +525,7 @@ class SparknovPreProcessor(BasePreProcessor):
 
         self.df[_EVENT_TIMESTAMP] = self.df[self.timestamp_col].apply(lambda x: SparknovPreProcessor._add_months(x))        
         self.df.drop(self.timestamp_col, axis=1, inplace=True)
-        self.df['LABEL_TIMESTAMP'] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
+        self.df[_LABEL_TIMESTAMP] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
 
     def standardize_entity_id_col(self):
 
