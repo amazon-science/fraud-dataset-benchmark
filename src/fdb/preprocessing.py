@@ -401,7 +401,7 @@ class IEEEPreProcessor(BasePreProcessor):
     def standardize_timestamp_col(self):
         self.df[_EVENT_TIMESTAMP] = self.df[self.timestamp_col].apply(lambda x: IEEEPreProcessor._add_seconds(x))        
         self.df.drop(self.timestamp_col, axis=1, inplace=True)
-        self.df['LABEL_TIMESTAMP'] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
+        self.df[_LABEL_TIMESTAMP] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
 
     def subset_features(self):
         features_to_select = \
@@ -464,7 +464,7 @@ class FraudecomPreProcessor(BasePreProcessor):
         self.df.drop(self.timestamp_col, axis=1, inplace=True)
 
         # Also add _LABEL_TIMESTAMP to allow training of this dataset with TFI
-        self.df['LABEL_TIMESTAMP'] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
+        self.df[_LABEL_TIMESTAMP] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
 
     def process_ip(self):
         """
@@ -525,7 +525,7 @@ class SparknovPreProcessor(BasePreProcessor):
 
         self.df[_EVENT_TIMESTAMP] = self.df[self.timestamp_col].apply(lambda x: SparknovPreProcessor._add_months(x))        
         self.df.drop(self.timestamp_col, axis=1, inplace=True)
-        self.df['LABEL_TIMESTAMP'] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
+        self.df[_LABEL_TIMESTAMP] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
 
     def standardize_entity_id_col(self):
 

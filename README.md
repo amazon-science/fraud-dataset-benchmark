@@ -72,8 +72,8 @@ The usage is straightforward, where you create a `dataset` object of `FraudDatas
 ```
 from fdb.datasets import FraudDatasetBenchmark
 
-# all_keys = ['fakejob', 'vechicleloan', 'malurl', 'ieeecis', 'ccfraud','fraudecom', 'twitterbot', 'ipblock'] 
-key = 'ipblock
+# all_keys = ['fakejob', 'vechicleloan', 'malurl', 'ieeecis', 'ccfraud', 'fraudecom', 'twitterbot', 'ipblock'] 
+key = 'ipblock'
 
 obj = FraudDatasetBenchmark(key=key)
 print(obj.key)
