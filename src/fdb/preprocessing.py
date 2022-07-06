@@ -226,7 +226,7 @@ class BasePreProcessor(ABC):
         if self.timestamp_col:
             self.sort_by_timestamp()
 
-    def train_test_split(self, train_percentage = 0.8):
+    def train_test_split(self):
         """
         Default setting is out of time with 80%-20% into training and testing respectively
         """
