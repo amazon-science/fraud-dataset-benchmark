@@ -30,7 +30,7 @@ def load_data(key):
             event_id_col = None
         )
 
-    elif key == 'ieee':
+    elif key == 'ieeecis':
         obj = IEEEPreProcessor(
             key = key,
             train_percentage = 0.95,
