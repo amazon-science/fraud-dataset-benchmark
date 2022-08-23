@@ -1,4 +1,4 @@
-# Fraud Dataset Benchmark for Automated Machine Learning Pipelines
+# Fraud Dataset Benchmark
 
 *By [Prince Grover](groverpr), [Zheng Li](zhengli0817), Jianbo Liu, [Jakub Zablocki](qbaza), [Hao Zhou](haozhouamzn), Julia Xu and Anqi Cheng*
 
@@ -7,7 +7,7 @@
 
 
 
-The **Fraud Dataset Benchmark (FDB)** is a compilation of publicly available datasets relevant to **fraud detection**. The FDB aims to cover a wide variety of fraud detection tasks, ranging from card not present transaction fraud, bot attacks, malicious traffic, loan risk and content moderation. The Python based data loaders from FDB provide dataset loading, standardized train-test splits and performance evaluation metrics. The goal of our work is to provide researchers working in the field of fraud and abuse detection a standardized set of benchmarking datasets and evaluation tools for their experiments. Using FDB tools we evaluate 3 AutoML pipelines including AutoGluon, H2O and Amazon Fraud Detector across 9 different fraud detection datasets and discuss the results. 
+The **Fraud Dataset Benchmark (FDB)** is a compilation of publicly available datasets relevant to **fraud detection**. The FDB aims to cover a wide variety of fraud detection tasks, ranging from card not present transaction fraud, bot attacks, malicious traffic, loan risk and content moderation. The Python based data loaders from FDB provide dataset loading, standardized train-test splits and performance evaluation metrics. The goal of our work is to provide researchers working in the field of fraud and abuse detection a standardized set of benchmarking datasets and evaluation tools for their experiments. Using FDB tools we evaluate 4 AutoML pipelines including AutoGluon, H2O, Amazon Fraud Detector and Auto-sklearn across 9 different fraud detection datasets and discuss the results. 
 
 This repository is mentioned in the paper "Fraud Dataset Benchmark for Automated Machine Learning Pipelines" submitted at the NeurIPS 2022 Track on Datasets and Benchmarks. 
 
@@ -23,7 +23,7 @@ Brief summary of the datasets used in FDB. Each dataset is described in detail i
 | 5     | Twitter Bots Accounts                                      | twitterbot      | Bot Attacks                         | 29,950     | 7,488     | 33.10%                  | 16         | 6        | 6        | 4         | 0               |
 | 6     | Malicious URLs dataset                                     | malurl          | Malicious Traffic                  | 586,072   | 65,119    | 34.20%                  | 2          | 0        | 1        | 1         | 0               |
 | 7     | Fake Job Posting Prediction                                | fakejob         | Content Moderation                  | 14,304     | 3,576     | 4.70%                   | 16         | 10       | 1        | 5         | 0               |
-| 8     | Vehicle Loan Default Prediction                            | vechicleloan    | Credit Risk                         | 186,523    | 46,631    | 21.60%                  | 38         | 13       | 22       | 3         | 0               |
+| 8     | Vehicle Loan Default Prediction                            | vehicleloan    | Credit Risk                         | 186,523    | 46,631    | 21.60%                  | 38         | 13       | 22       | 3         | 0               |
 | 9     | IP Blocklist                                               | ipblock         | Malicious Traffic                   | 172,000    | 43,000    | 7%                      | 1          | 0        | 0        | 0         | 1               |
 
 
@@ -72,7 +72,7 @@ The usage is straightforward, where you create a `dataset` object of `FraudDatas
 ```
 from fdb.datasets import FraudDatasetBenchmark
 
-# all_keys = ['fakejob', 'vechicleloan', 'malurl', 'ieeecis', 'ccfraud', 'fraudecom', 'twitterbot', 'ipblock'] 
+# all_keys = ['fakejob', 'vehicleloan', 'malurl', 'ieeecis', 'ccfraud', 'fraudecom', 'twitterbot', 'ipblock'] 
 key = 'ipblock'
 
 obj = FraudDatasetBenchmark(key=key)
@@ -102,18 +102,37 @@ Reproducibility scripts are available at [scripts/reproducibility/](scripts/repr
 
 ## Benchmark Results
 
-| **Dataset key** | **AUC-ROC** |             |               |                  | **Recall at 1% FPR** |             |               |                  |
-|:---------------:|:-----------:|:-----------:|:-------------:|:----------------:|:--------------------:|:-----------:|:-------------:|:----------------:|
-|                 | **AFD OFI** | **AFD TFI** | **AutoGluon** |      **H2O**     |      **AFD OFI**     | **AFD TFI** | **AutoGluon** |      **H2O**     |
-|         ccfraud |       0.985 |        0.99 |          0.99 |        **0.992** |                 0.88 |        0.88 |          0.88 |            0.853 |
-|         fakejob |       0.987 |           - |     **0.998** |             0.99 |                0.786 |           - |         0.925 |            0.781 |
-|       fraudecom |       0.519 |   **0.636** |         0.522 |            0.518 |                0.011 |       0.099 |         0.012 |            0.009 |
-|         ieeecis |       0.938 |    **0.94** |         0.855 |             0.89 |                0.587 |        0.56 |         0.425 |            0.442 |
-|          malurl |       0.985 |           - |     **0.998** | Training failure |                0.868 |           - |         0.976 | Training failure |
-|        sparknov |   **0.998** |           - |         0.997 |            0.997 |                    1 |           - |         0.927 |            0.896 |
-|      twitterbot |       0.934 |           - |     **0.943** |            0.938 |                0.518 |           - |         0.419 |            0.382 |
-|    vechicleloan |   **0.673** |           - |         0.669 |             0.67 |                0.036 |           - |          0.04 |            0.037 |
-|         ipblock |   **0.937** |           - |         0.804 | Training failure |                0.466 |           - |          0.32 | Training failure |
+<!-- | **Dataset key** | **AUC-ROC** |             |               |                  |                  | **Recall at 1% FPR** |             |               |                  |                  |
+|:---------------:|:-----------:|:-----------:|:-------------:|:----------------:|:----------------:|:--------------------:|:-----------:|:-------------:|:----------------:|:----------------:|
+|                 | **AFD OFI** | **AFD TFI** | **AutoGluon** |      **H2O**     | **Auto-sklearn** |      **AFD OFI**     | **AFD TFI** | **AutoGluon** |      **H2O**     | **Auto-sklearn** |
+|     ccfraud     |    0.985    |     0.99    |      0.99     |     **0.992**    |       0.988      |         0.88         |     0.88    |      0.88     |       0.853      |       0.88       |
+|     fakejob     |    0.987    |      -      |   **0.998**   |       0.99       |       0.983      |         0.786        |      -      |     0.925     |       0.781      |       0.781      |
+|    fraudecom    |    0.519    |  **0.636**  |     0.522     |       0.518      |       0.515      |         0.011        |    0.099    |     0.012     |       0.009      |       0.012      |
+|     ieeecis     |    0.938    |   **0.94**  |     0.855     |       0.89       |       0.932      |         0.587        |     0.56    |     0.425     |       0.442      |       0.569      |
+|      malurl     |    0.985    |      -      |   **0.998**   | Training failure |        0.5       |         0.868        |      -      |     0.976     | Training failure |       0.01       |
+|     sparknov    |  **0.998**  |      -      |     0.997     |       0.997      |       0.995      |           1          |      -      |     0.927     |       0.896      |       0.868      |
+|    twitterbot   |    0.934    |      -      |   **0.943**   |       0.938      |       0.936      |         0.518        |      -      |     0.419     |       0.382      |       0.369      |
+|   vehicleloan   |  **0.673**  |      -      |     0.669     |       0.67       |       0.664      |         0.036        |      -      |      0.04     |       0.037      |       0.035      |
+|     ipblock     |  **0.937**  |      -      |     0.804     | Training failure |        0.5       |         0.466        |      -      |      0.32     | Training failure |       0.01       | -->
+
+| **Dataset key** |             |             |  **AUC-ROC**  |                  |                  |
+|:---------------:|:-----------:|:-----------:|:-------------:|:----------------:|:----------------:|
+|                 | **AFD OFI** | **AFD TFI** | **AutoGluon** |      **H2O**     | **Auto-sklearn** |
+|     ccfraud     |    0.985    |     0.99    |      0.99     |     **0.992**    |       0.988      |
+|     fakejob     |    0.987    |      -      |   **0.998**   |       0.99       |       0.983      |
+|    fraudecom    |    0.519    |  **0.636**  |     0.522     |       0.518      |       0.515      |
+|     ieeecis     |    0.938    |   **0.94**  |     0.855     |       0.89       |       0.932      |
+|      malurl     |    0.985    |      -      |   **0.998**   | Training failure |        0.5       |
+|     sparknov    |  **0.998**  |      -      |     0.997     |       0.997      |       0.995      |
+|    twitterbot   |    0.934    |      -      |   **0.943**   |       0.938      |       0.936      |
+|   vehicleloan   |  **0.673**  |      -      |     0.669     |       0.67       |       0.664      |
+|     ipblock     |  **0.937**  |      -      |     0.804     | Training failure |        0.5       |
+
+### ROC Curves
+
+The numbers in the legend represent AUC-ROC from different models from our baseline evaluations on AutoML.  
+![roc curves](images/all_fdb.png)
+
 
 ## Data Sources
 

@@ -10,7 +10,7 @@ KAGGLE_CONFIGS = {
         "version": 1
     },    
 
-    "vechicleloan":
+    "vehicleloan":
     {
         "owner": "avikpaul4u",
         "dataset": "vehicle-loan-default-prediction",
