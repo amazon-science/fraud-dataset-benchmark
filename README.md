@@ -115,7 +115,7 @@ Reproducibility scripts are available at [scripts/reproducibility/](scripts/repr
 |   vehicleloan   |  **0.673**  |      -      |     0.669     |       0.67       |       0.664      |         0.036        |      -      |      0.04     |       0.037      |       0.035      |
 |     ipblock     |  **0.937**  |      -      |     0.804     | Training failure |        0.5       |         0.466        |      -      |      0.32     | Training failure |       0.01       | -->
 
-| **Dataset key** |             |             |  **AUC-ROC**  |                  |                  |
+| **Dataset key** | **AUC-ROC** |             |               |                  |                  |
 |:---------------:|:-----------:|:-----------:|:-------------:|:----------------:|:----------------:|
 |                 | **AFD OFI** | **AFD TFI** | **AutoGluon** |      **H2O**     | **Auto-sklearn** |
 |     ccfraud     |    0.985    |     0.99    |      0.99     |     **0.992**    |       0.988      |
