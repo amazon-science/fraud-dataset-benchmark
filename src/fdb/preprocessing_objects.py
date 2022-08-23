@@ -11,7 +11,7 @@ def load_data(key):
                 event_id_col = 'job_id'
                 )
     
-    elif key == 'vechicleloan':
+    elif key == 'vehicleloan':
         obj = VehicleloanPreProcessor(
             key = key,
             train_percentage = 0.8,
