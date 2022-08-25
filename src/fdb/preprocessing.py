@@ -556,6 +556,15 @@ class TwitterbotPreProcessor(BasePreProcessor):
 
 
 class IPBlocklistPreProcessor(BasePreProcessor):
+    """
+    The dataset source is http://cinsscore.com/list/ci-badguys.txt. 
+    In order to download/access the latest version of this dataset, a sign-in/sign-up to is not required
+
+    Since this dataset is not version controlled from the source, we added the version of dataset we used for experiments
+    discussed in the paper. The versioned dataset is as of 2022-06-07. 
+    The code is set to pick the fixed version. If the user is interested to use the latest version,
+    'version' argument will need to be turned off (i.e. set to None) 
+    """
     def __init__(self, version, **kw):
         self.version = version  # string or None. If string, picks one from versioned_datasets, else creates one from source  
         super(IPBlocklistPreProcessor, self).__init__(**kw)
