@@ -84,7 +84,8 @@ def load_data(key):
     elif key == 'ipblock':
         obj = IPBlocklistPreProcessor(
             key = 'ipblock',
-            label_col = 'is_ip_malign'
+            label_col = 'is_ip_malign',
+            version = '20220607'
         )
 
     else:

@@ -4,16 +4,18 @@ import os
 import re
 import shutil
 import kaggle
+import pkgutil
 import requests
 import zipfile
 import numpy as np
+from abc import ABC
 import pandas as pd
 import socket, struct
 from faker import Faker
-from io import StringIO
+from zipfile import ZipFile
 from datetime import datetime
 from datetime import timedelta
-from abc import ABC
+from io import StringIO, BytesIO
 from dateutil.relativedelta import relativedelta
 
 from fdb.kaggle_configs import KAGGLE_CONFIGS
@@ -554,29 +556,53 @@ class TwitterbotPreProcessor(BasePreProcessor):
 
 
 class IPBlocklistPreProcessor(BasePreProcessor):
-    def __init__(self, **kw):
+    """
+    The dataset source is http://cinsscore.com/list/ci-badguys.txt. 
+    In order to download/access the latest version of this dataset, a sign-in/sign-up to is not required
+
+    Since this dataset is not version controlled from the source, we added the version of dataset we used for experiments
+    discussed in the paper. The versioned dataset is as of 2022-06-07. 
+    The code is set to pick the fixed version. If the user is interested to use the latest version,
+    'version' argument will need to be turned off (i.e. set to None) 
+    """
+    def __init__(self, version, **kw):
+        self.version = version  # string or None. If string, picks one from versioned_datasets, else creates one from source  
         super(IPBlocklistPreProcessor, self).__init__(**kw)
         
     def load_data(self):
-        # load malicious IPs
-        _URL = 'http://cinsscore.com/list/ci-badguys.txt'  # contains confirmed malicious IPs
-        _N_BENIGN = 200000
-        
-        res = requests.get(_URL)
-        ip_mal = pd.read_csv(StringIO(res.text), sep='\n', names=['ip'], header=None)
-        ip_mal['is_ip_malign'] = 1
-        
-        # add fake IPs as benign
-        ip_ben = pd.DataFrame({
-            'ip': [fake.ipv4() for i in range(_N_BENIGN)], 
-            'is_ip_malign': 0
-        })
-        
-        self.df = pd.concat([ip_mal, ip_ben], axis=0, ignore_index=True)
-        
+        if self.version is None:
+            # load malicious IPs from the source
+            _URL = 'http://cinsscore.com/list/ci-badguys.txt'  # contains confirmed malicious IPs
+            _N_BENIGN = 200000
+            
+            res = requests.get(_URL)
+            ip_mal = pd.read_csv(StringIO(res.text), sep='\n', names=['ip'], header=None)
+            ip_mal['is_ip_malign'] = 1
+            
+            # add fake IPs as benign
+            ip_ben = pd.DataFrame({
+                'ip': [fake.ipv4() for i in range(_N_BENIGN)], 
+                'is_ip_malign': 0
+            })
+            
+            self.df = pd.concat([ip_mal, ip_ben], axis=0, ignore_index=True)
+        else:
+
+            _VERSIONED_DATA_PATH = f'versioned_datasets/{self.key}/{self.version}.zip'
+            data = pkgutil.get_data(__name__, _VERSIONED_DATA_PATH)
+            with zipfile.ZipFile(BytesIO(data)) as f:
+                self.train = pd.read_csv(f.open('train.csv'))
+                self.test = pd.read_csv(f.open('test.csv'))
+                self.test_labels = pd.read_csv(f.open('test_labels.csv'))
+
     def add_dummy_col(self):
         self.df['dummy_cat'] = self.df[_EVENT_LABEL].apply(lambda x: fake.uuid4())
+    
+    def train_test_split(self):
+        if self.version is None:
+            super(IPBlocklistPreProcessor, self).train_test_split()
         
     def preprocess(self):
-        super(IPBlocklistPreProcessor, self).preprocess()
-        self.add_dummy_col()
+        if self.version is None:
+            super(IPBlocklistPreProcessor, self).preprocess()
+            self.add_dummy_col()                        
