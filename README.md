@@ -1,4 +1,4 @@
-# Fraud Dataset Benchmark
+# FDB: Fraud Dataset Benchmark
 
 *By [Prince Grover](groverpr), [Zheng Li](zhengli0817), Jianbo Liu, [Jakub Zablocki](qbaza), [Hao Zhou](haozhouamzn), Julia Xu and Anqi Cheng*
 
