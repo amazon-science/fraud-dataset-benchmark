@@ -32,7 +32,7 @@ Brief summary of the datasets used in FDB. Each dataset is described in detail i
 ### Requirements
 - Kaggle account
 - AWS account
-- Python 3.6+ 
+- Python 3.7+ 
 
 - Python requirements
 ```
@@ -49,6 +49,8 @@ pandas==1.1.2
 regex==2020.7.14
 scikit-learn==0.22.1
 scipy==1.5.4
+auto-sklearn==0.14.7
+dask==2022.8.1
 ```
 
 ### Step 1: Setup Kaggle CLI
