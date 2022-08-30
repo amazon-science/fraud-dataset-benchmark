@@ -1,7 +1,7 @@
 ## Steps to reproduce Auto-sklearn models
 
 
-1. Load and save the datasets locally using ![FDB Loader](../../examples/Test_FDB_Loader.ipynb). Keep note of `{DATASET_PATH}` that contains local paths to datasets containing `train.csv`, `test.csv` and `test_labels.csv` from FDB loader.
+1. Load and save the datasets locally using [FDB Loader](../../examples/Test_FDB_Loader.ipynb). Keep note of `{DATASET_PATH}` that contains local paths to datasets containing `train.csv`, `test.csv` and `test_labels.csv` from FDB loader.
 
 2. Run `benchmark_autosklearn.py` using following:
 ```
