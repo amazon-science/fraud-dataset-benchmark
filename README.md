@@ -9,7 +9,6 @@
 
 The **Fraud Dataset Benchmark (FDB)** is a compilation of publicly available datasets relevant to **fraud detection** ([arXiv Link](https://arxiv.org/abs/2208.14417)). The FDB aims to cover a wide variety of fraud detection tasks, ranging from card not present transaction fraud, bot attacks, malicious traffic, loan risk and content moderation. The Python based data loaders from FDB provide dataset loading, standardized train-test splits and performance evaluation metrics. The goal of our work is to provide researchers working in the field of fraud and abuse detection a standardized set of benchmarking datasets and evaluation tools for their experiments. Using FDB tools we evaluate 4 AutoML pipelines including AutoGluon, H2O, Amazon Fraud Detector and Auto-sklearn across 9 different fraud detection datasets and discuss the results. 
 
-This repository is mentioned in the paper "Fraud Dataset Benchmark for Automated Machine Learning Pipelines" submitted at the NeurIPS 2022 Track on Datasets and Benchmarks. 
 
 ## Datasets used in FDB
 Brief summary of the datasets used in FDB. Each dataset is described in detail in [data source section](#data-sources).
@@ -194,10 +193,13 @@ The numbers in the legend represent AUC-ROC from different models from our basel
 
 ## Citation
 ```
-@inproceedings{fdb2022,
-  title={Fraud Dataset Benchmark for Automated Machine Learning Pipelines},
-  author={Grover, Prince and Li, Zheng and Liu, Jianbo and Zablocki, Jakub and Zhou, Hao and Xu, Julia and Cheng, Anqi},
-  year={2022}
+@misc{grover2022fdb,
+      title={FDB: Fraud Dataset Benchmark}, 
+      author={Prince Grover and Zheng Li and Jianbo Liu and Jakub Zablocki and Hao Zhou and Julia Xu and Anqi Cheng},
+      year={2022},
+      eprint={2208.14417},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
 }
 ```
 
