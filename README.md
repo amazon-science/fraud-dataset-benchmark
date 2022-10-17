@@ -61,7 +61,7 @@ Remember to download the authentication token from "My Account" on Kaggle, and s
 
 
 ### Step 2: Clone Repo
-Once Kaggle CLI is setup and installed, clone the github repo using `git clone https://github.com/amazon-research/fraud_dataset_benchmark.git` if using HTTPS, or `git clone git@github.com:amazon-research/fraud_dataset_benchmark.git` if using SSH. 
+Once Kaggle CLI is setup and installed, clone the github repo using `git clone https://github.com/amazon-research/fraud-dataset-benchmark.git` if using HTTPS, or `git clone git@github.com:amazon-research/fraud-dataset-benchmark.git` if using SSH. 
 
 ### Step 3: Install
 Once repo is cloned, from your terminal, `cd` to the repo and type `pip install .`, which will install the required classes and methods.
