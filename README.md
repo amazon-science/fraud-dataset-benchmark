@@ -30,6 +30,7 @@ Brief summary of the datasets used in FDB. Each dataset is described in detail i
 
 ### Requirements
 - Kaggle account
+    - **Important**: `ieeecis` dataset requires you to [**join IEEE-CIS competetion**](https://www.kaggle.com/competitions/ieee-fraud-detection/overview) from your Kaggle account, before you can call fdb API. Otherwise you will get <span style="color:red">ApiException: (403)</span>.
 - AWS account
 - Python 3.7+ 
 
@@ -58,8 +59,11 @@ The `FraudDatasetBenchmark` object is going to load datasets from the source (wh
 Use intructions from [How to Use Kaggle](https://www.kaggle.com/docs/api) guide. The steps include:
 
 Remember to download the authentication token from "My Account" on Kaggle, and save token at `~/.kaggle/kaggle.json` on Linux, OSX and at `C:\Users<Windows-username>.kaggle\kaggle.json` on Windows. If the token is not there, an error will be raised. Hence, once you’ve downloaded the token, you should move it from your Downloads folder to this folder.
-
-
+  
+    
+#### Step 1.2. [Join IEEE-CIS competetion](https://www.kaggle.com/competitions/ieee-fraud-detection/overview) from your Kaggle account, before you can call `fdb.datasets` with `ieeecis`. Otherwise you will get <span style="color:red">ApiException: (403)</span>.
+  
+  
 ### Step 2: Clone Repo
 Once Kaggle CLI is setup and installed, clone the github repo using `git clone https://github.com/amazon-research/fraud-dataset-benchmark.git` if using HTTPS, or `git clone git@github.com:amazon-research/fraud-dataset-benchmark.git` if using SSH. 
 
@@ -70,13 +74,27 @@ Once repo is cloned, from your terminal, `cd` to the repo and type `pip install 
 ## FraudDatasetBenchmark Usage
 The usage is straightforward, where you create a `dataset` object of `FraudDatasetBenchmark` class, and extract useful goodies like train/test splits and eval_metrics.   
 
+**Important note**: If you are running multiple experiments that require re-loading dataframes multiple times, default setting of downloading from Kaggle before loading into dataframe exceed the account level API limits. So, use the setting to persist the downloaded dataset and then load from the persisted data. During the first call of FraudDatasetBenchmark(), use `load_pre_downloaded=False, delete_downloaded=False` and for subsequent calls, use `load_pre_downloaded=True, delete_downloaded=False`. The default setting is 
+`load_pre_downloaded=False, delete_downloaded=True`
 ```
 from fdb.datasets import FraudDatasetBenchmark
 
 # all_keys = ['fakejob', 'vehicleloan', 'malurl', 'ieeecis', 'ccfraud', 'fraudecom', 'twitterbot', 'ipblock'] 
 key = 'ipblock'
 
-obj = FraudDatasetBenchmark(key=key)
+obj = FraudDatasetBenchmark(
+    key=key,
+    load_pre_downloaded=False,  # default
+    delete_downloaded=True,  # default
+    add_random_values_if_real_na = { 
+        "EVENT_TIMESTAMP": True, 
+        "LABEL_TIMESTAMP": True,
+        "ENTITY_ID": True,
+        "ENTITY_TYPE": True,
+        "ENTITY_ID": True,
+        "EVENT_ID": True
+        } # default
+    )
 print(obj.key)
 
 print('Train set: ')

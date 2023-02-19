@@ -58,21 +58,33 @@ class BasePreProcessor(ABC):
         label_timestamp_col = None,
         event_id_col = None,
         entity_id_col = None,
-        features_to_drop = []
+        features_to_drop = [],
+        load_pre_downloaded = False,
+        delete_downloaded = True,
+        add_random_values_if_real_na = {
+            "EVENT_TIMESTAMP": True,
+            "LABEL_TIMESTAMP": True,
+            "ENTITY_ID": True,
+            "ENTITY_TYPE": True,
+            "ENTITY_ID": True,
+            "EVENT_ID": True
+            }
         ):
         
         self.key = key 
         self.train_percentage = train_percentage
         self.features_to_drop = features_to_drop
+        self.delete_downloaded = delete_downloaded
         
         self._timestamp_col = timestamp_col
         self._label_col = label_col
         self._label_timestamp_col = label_timestamp_col
         self._event_id_col = event_id_col
         self._entity_id_col = entity_id_col
+        self._add_random_values_if_real_na = add_random_values_if_real_na
         
         # Simply get all required objects at the time of object creation
-        if KAGGLE_CONFIGS.get(self.key):
+        if KAGGLE_CONFIGS.get(self.key) and not load_pre_downloaded:
             self.download_kaggle_data()  # download the data when an object is created
         self.load_data()
         self.preprocess()
@@ -139,7 +151,7 @@ class BasePreProcessor(ABC):
     def load_data(self):
         self.df = pd.read_csv(os.path.join(_DOWNLOAD_LOCATION, KAGGLE_CONFIGS[self.key]['filename']), dtype='object')
         # delete downloaded data after loading in memory
-        shutil.rmtree(_DOWNLOAD_LOCATION)
+        if self.delete_downloaded: shutil.rmtree(_DOWNLOAD_LOCATION)
 
     @property
     def timestamp_col(self):
@@ -164,34 +176,36 @@ class BasePreProcessor(ABC):
         if self.timestamp_col is not None:
             self.df[_EVENT_TIMESTAMP] = pd.to_datetime(self.df[self.timestamp_col]).apply(lambda x: x.strftime(_TIMESTAMP_FORMAT))
             self.df.drop(self.timestamp_col, axis=1, inplace=True)
-        else:
+        elif self.timestamp_col is None and self._add_random_values_if_real_na["EVENT_TIMESTAMP"]:
             self.df[_EVENT_TIMESTAMP] = self.df[_EVENT_LABEL].apply(
                 lambda x: fake.date_time_between(
                     start_date='-1y',   # think about making it to fixed date. vs from now?
                     end_date='now',
                     tzinfo=None).strftime(_TIMESTAMP_FORMAT))
         
-        if self._label_timestamp_col is None:
+        if self._label_timestamp_col is None and self._add_random_values_if_real_na["LABEL_TIMESTAMP"]:
             self.df[_LABEL_TIMESTAMP] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
-        else:
+        elif self._label_timestamp_col is not None:
             self.df[_LABEL_TIMESTAMP] = pd.to_datetime(self.df[self._label_timestamp_col]).apply(lambda x: x.strftime(_TIMESTAMP_FORMAT))
             self.df.drop(self._label_timestamp_col, axis=1, inplace=True)
 
     def standardize_label_col(self):
         self.df.rename({self.label_col: _EVENT_LABEL}, axis=1, inplace=True)
+        self.df[_EVENT_LABEL] = self.df[_EVENT_LABEL].astype(int)
 
     def standardize_event_id_col(self):
         if self.event_id_col is not None:
             self.df.rename({self.event_id_col: _EVENT_ID}, axis=1, inplace=True)
             self.df[_EVENT_ID] = self.df[_EVENT_ID].astype(str)
-        else:  # add fake one if not exist
+        elif self.event_id_col is None and self._add_random_values_if_real_na["EVENT_ID"]: # add fake one if not exist
             self.df[_EVENT_ID] = self.df[_EVENT_LABEL].apply(
                 lambda x: fake.uuid4())
+
             
     def standardize_entity_id_col(self):
         if self.entity_id_col is not None:
             self.df.rename({self.entity_id_col: _ENTITY_ID}, axis=1, inplace=True)
-        else:  # add fake one if not exist
+        elif self.entity_id_col is None and self._add_random_values_if_real_na["ENTITY_ID"]: # add fake one if not exist
             self.df[_ENTITY_ID] = self.df[_EVENT_LABEL].apply(
                 lambda x: fake.uuid4())
 
@@ -242,7 +256,7 @@ class BasePreProcessor(ABC):
             self.test.reset_index(drop=True, inplace=True)
             
         self.test_labels = self.test[[_EVENT_LABEL, _EVENT_ID]]
-        self.test.drop([_EVENT_LABEL, _LABEL_TIMESTAMP], axis=1, inplace=True)
+        self.test.drop([_EVENT_LABEL, _LABEL_TIMESTAMP], axis=1, inplace=True, errors="ignore")
 
 
 class FakejobPreProcessor(BasePreProcessor):
@@ -267,10 +281,10 @@ class MalurlPreProcessor(BasePreProcessor):
     def standardize_label_col(self):
         self.df.rename({self.label_col: _EVENT_LABEL}, axis=1, inplace=True)
         binary_mapper = {
-            'defacement': 'malignant',
-            'phishing': 'malignant',
-            'malware': 'malignant',
-            'benign': 'benign'
+            'defacement': 1,
+            'phishing': 1,
+            'malware': 1,
+            'benign': 0
         }
         
         self.df[_EVENT_LABEL] = self.df[_EVENT_LABEL].map(binary_mapper)
@@ -375,7 +389,7 @@ class IEEEPreProcessor(BasePreProcessor):
         self.df = self.df.merge(self.df_id, how='left', left_index=True, right_index=True)
 
         # delete downloaded data after loading in memory
-        shutil.rmtree(_DOWNLOAD_LOCATION)
+        if self.delete_downloaded: shutil.rmtree(_DOWNLOAD_LOCATION)
 
     def normalization(self):
         # NORMALIZE D COLUMNS
@@ -403,7 +417,8 @@ class IEEEPreProcessor(BasePreProcessor):
     def standardize_timestamp_col(self):
         self.df[_EVENT_TIMESTAMP] = self.df[self.timestamp_col].apply(lambda x: IEEEPreProcessor._add_seconds(x))        
         self.df.drop(self.timestamp_col, axis=1, inplace=True)
-        self.df[_LABEL_TIMESTAMP] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
+        if self._add_random_values_if_real_na["LABEL_TIMESTAMP"]:
+            self.df[_LABEL_TIMESTAMP] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
 
     def subset_features(self):
         features_to_select = \
@@ -414,7 +429,7 @@ class IEEEPreProcessor(BasePreProcessor):
          'v266', 'v267', 'v271', 'v274', 'v277', 'v283', 'v285', 'v289', 'v291', 'v294', 'id_01', 'id_02',
          'id_05', 'id_06', 'id_09', 'id_13', 'id_17', 'id_19', 'id_20', 'devicetype', 'deviceinfo',
          'EVENT_TIMESTAMP', 'ENTITY_ID', 'ENTITY_TYPE', 'EVENT_ID', 'EVENT_LABEL', 'LABEL_TIMESTAMP']
-        self.df = self.df[features_to_select]  
+        self.df = self.df.loc[:, self.df.columns.isin(features_to_select)]
 
     def preprocess(self):
         self.lower_case_col_names()
@@ -444,7 +459,8 @@ class CCFraudPreProcessor(BasePreProcessor):
     def standardize_timestamp_col(self):
         self.df[_EVENT_TIMESTAMP] = self.df[self.timestamp_col].astype(float).apply(lambda x: CCFraudPreProcessor._add_minutes(x))        
         self.df.drop(self.timestamp_col, axis=1, inplace=True)
-        self.df[_LABEL_TIMESTAMP] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
+        if self._add_random_values_if_real_na["LABEL_TIMESTAMP"]:
+            self.df[_LABEL_TIMESTAMP] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
         
 class FraudecomPreProcessor(BasePreProcessor):
     def __init__(self, ip_address_col, signup_time_col, **kw):
@@ -466,7 +482,8 @@ class FraudecomPreProcessor(BasePreProcessor):
         self.df.drop(self.timestamp_col, axis=1, inplace=True)
 
         # Also add _LABEL_TIMESTAMP to allow training of this dataset with TFI
-        self.df[_LABEL_TIMESTAMP] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
+        if self._add_random_values_if_real_na["LABEL_TIMESTAMP"]:
+            self.df[_LABEL_TIMESTAMP] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
 
     def process_ip(self):
         """
@@ -513,7 +530,7 @@ class SparknovPreProcessor(BasePreProcessor):
         self.df = pd.concat([df_train, df_test], ignore_index=True)
 
         # delete downloaded data after loading in memory
-        shutil.rmtree(_DOWNLOAD_LOCATION)
+        if self.delete_downloaded: shutil.rmtree(_DOWNLOAD_LOCATION)
 
     @staticmethod
     def _add_months(x):
@@ -547,12 +564,21 @@ class SparknovPreProcessor(BasePreProcessor):
         self.test = self.test.sample(n=20000, random_state=1)
         
         self.test_labels = self.test[[_EVENT_LABEL, _EVENT_ID]]
-        self.test.drop([_EVENT_LABEL, _LABEL_TIMESTAMP], axis=1, inplace=True)
+        self.test.drop([_EVENT_LABEL, _LABEL_TIMESTAMP], axis=1, inplace=True, errors='ignore')
 
 
 class TwitterbotPreProcessor(BasePreProcessor):
     def __init__(self, **kw):
         super(TwitterbotPreProcessor, self).__init__(**kw)
+
+    def standardize_label_col(self):
+        self.df.rename({self.label_col: _EVENT_LABEL}, axis=1, inplace=True)
+        binary_mapper = {
+            'bot': 1,
+            'human': 0
+        }
+        
+        self.df[_EVENT_LABEL] = self.df[_EVENT_LABEL].map(binary_mapper)
 
 
 class IPBlocklistPreProcessor(BasePreProcessor):
