@@ -4,9 +4,21 @@ from fdb.preprocessing_objects import load_data
 from sklearn.metrics import roc_auc_score, roc_curve, auc
 
 class FraudDatasetBenchmark(ABC):
-    def __init__(self, key):
+    def __init__(
+        self, 
+        key, 
+        load_pre_downloaded=False,
+        delete_downloaded=True,
+        add_random_values_if_real_na = {
+            "EVENT_TIMESTAMP": True,
+            "LABEL_TIMESTAMP": True,
+            "ENTITY_ID": True,
+            "ENTITY_TYPE": True,
+            "ENTITY_ID": True,
+            "EVENT_ID": True
+            }):
         self.key = key
-        self.obj = load_data(self.key)
+        self.obj = load_data(self.key, load_pre_downloaded, delete_downloaded, add_random_values_if_real_na)
     
     @property
     def train(self):
