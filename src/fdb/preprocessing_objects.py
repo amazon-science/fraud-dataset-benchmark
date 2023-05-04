@@ -54,7 +54,7 @@ def load_data(key, load_pre_downloaded, delete_downloaded, add_random_values_if_
             timestamp_col = 'time',
             label_col = 'class',
             event_id_col = None,
-            load_pre_downloaded = load_pre_downloaded
+            **common_kw
         )
 
     elif key == 'fraudecom':

@@ -89,7 +89,6 @@ obj = FraudDatasetBenchmark(
     add_random_values_if_real_na = { 
         "EVENT_TIMESTAMP": True, 
         "LABEL_TIMESTAMP": True,
-        "ENTITY_ID": True,
         "ENTITY_TYPE": True,
         "ENTITY_ID": True,
         "EVENT_ID": True
