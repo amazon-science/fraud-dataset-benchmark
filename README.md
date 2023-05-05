@@ -155,59 +155,88 @@ The numbers in the legend represent AUC-ROC from different models from our basel
 
 ## Data Sources
 
+
 1. **IEEE-CIS Fraud Detection**
-    - Link: https://www.kaggle.com/c/ieee-fraud-detection/overview
-    - Feature info: Card, address, email, product id, aggregates
+    - Source URL: https://www.kaggle.com/c/ieee-fraud-detection/overview
+    - Source license: https://www.kaggle.com/competitions/ieee-fraud-detection/rules
+    - Variables: Anonymized product, card, address, email domain, device, transaction date information. Numeric columns with name prefixes as V, C, D and M, and meaning hidden from public.
     - Fraud category: Card Not Present Transaction Fraud
     - Provider: [Vesta Corporation](https://www.vesta.io/)
+    - Release date: 2019-10-03
+    - Description: Prepared by IEEE Computational Intelligence Society, this card-non-present transaction fraud dataset was launched during IEEE-CIS Fraud Detection Kaggle competition, and was provided by Vesta Corporation. The original dataset contains 393 features which are reduced to 67 features in the benchmark. Feature selection was performed based on highly voted Kaggle kernels. The fraud rate in training segment of source dataset is 3.5%. We only used training files (train transaction and train identity) containing 590,540 transactions in the benchmark, and split that into train (95%) and test (5%) segments based on time. Based on the insights from a Kaggle kernel written by the competition winner, we added UUID (called it as ENTITY_ID) that represents a fingerprint and was created using card, address, time and D1 features.
 
 2. **Credit Card Fraud Detection**
-    - Link: https://www.kaggle.com/mlg-ulb/creditcardfraud/
-    - Feature info: PCA features, time, amount (highly imbalanced)
+    - Source URL: https://www.kaggle.com/mlg-ulb/creditcardfraud/
+    - Source license: https://opendatacommons.org/licenses/dbcl/1-0/
+    - Variables: PCA transformed features, time, amount (highly imbalanced)
     - Fraud category: Card Not Present Transaction Fraud
     - Provider: [Machine Learning Group - ULB](https://mlg.ulb.ac.be/)
+    - Release date: 2018-03-23
+    - Description: This dataset contains anonymized credit card transactions by European cardholders in September 2013. The dataset contains 492 frauds out of 284,807 transactions over 2 days. Data only contains numerical features that are the result of a PCA transformation, plus non transformed time and amount.
 
 3. **Fraud ecommerce**
-    - Link: https://www.kaggle.com/vbinh002/fraud-ecommerce
-    - Feature info: Signup time, purchase time, purchase value, ip, browser, age
+    - Source URL: https://www.kaggle.com/vbinh002/fraud-ecommerce
+    - Source license: None
+    - Variables: The features include sign up time, purchase time, purchase value, device id, user id, browser, and IP address. We added a new feature that measured the time difference between sign up and purchase, as the age of an account is often an important variable in fraud detection.
     - Fraud category: Card Not Present Transaction Fraud
     - Provider: [Binh Vu](https://www.kaggle.com/vbinh002) 
+    - Release date: 2018-12-09
+    - Description: This dataset contains ~150k e-commerce transactions.
 
 4. **Simulated Credit Card Transactions generated using Sparkov**
-    - Link: https://www.kaggle.com/kartik2112/fraud-detection
-    - Feature info: Cc_num, merchant, txn_date, category, zip, location
+    - Source URL: https://www.kaggle.com/kartik2112/fraud-detection
+    - Source license: https://creativecommons.org/publicdomain/zero/1.0/
+    - Variables: Transaction date, credit card number, merchant, category, amount, name, street, gender. All variables are synthetically generated using the Sparknov tool.
     - Fraud category: Card Not Present Transaction Fraud
-    - Provider: [Kartik Shenoy](https://www.kaggle.com/kartik2112) 
+    - Provider: [Kartik Shenoy](https://www.kaggle.com/kartik2112)
+    - Release date: 2020-08-05
+    - Description: This is a simulated credit card transaction dataset. The dataset was generated using Sparkov Data Generation tool and we modified a version of dataset created for Kaggle. It covers transactions of 1000 customers with a pool of 800 merchants over 6 months. We used both train and test segments directly from the source and randomly down sampled test segment.
 
 5. **Twitter Bots Accounts**
-    - Link: https://www.kaggle.com/code/davidmartngutirrez/bots-accounts-eda/data?select=twitter_human_bots_dataset.csv
-    - Feature info: Followers/following count, geo-enabled, description etc.
+    - Source URL: https://www.kaggle.com/code/davidmartngutirrez/bots-accounts-eda/data?select=twitter_human_bots_dataset.csv
+    - Source license: https://creativecommons.org/publicdomain/zero/1.0/
+    - Variables: Features like account creation date, follower and following counts, profile description, account age, meta data about profile picture and account activity, and a label indicating whether the account is human or bot.
     - Fraud category: Bot Attacks
-    - Provider: [David Martín Gutiérrez](https://www.kaggle.com/davidmartngutirrez) 
+    - Provider: [David Martín Gutiérrez](https://www.kaggle.com/davidmartngutirrez)
+    - Release date: 2020-08-20
+    - Description: The dataset composes of 37,438 rows corresponding to different user accounts from Twitter.
 
 6. **Malicious URLs dataset**
-    - Link: https://www.kaggle.com/datasets/sid321axn/malicious-urls-dataset
-    - Feature info: URL (malicious include defacement, phishing and malware)
+    - Source URL: https://www.kaggle.com/datasets/sid321axn/malicious-urls-dataset
+    - Source license: https://creativecommons.org/publicdomain/zero/1.0/
+    - Variables: The Kaggle dataset is curated using five different sources, and contains url and type. Even though original dataset has multiclass label (type), we converted it into binary label.
     - Fraud category: Malicious Traffic
     - Provider: [Manu Siddhartha](https://www.kaggle.com/sid321axn) 
+    - Release date: 2021-07-23
+    - Description: The Kaggle dataset is curated using five different sources, and contains url and type. Even though original dataset has multiclass label (type), we converted it into binary label. There is no timestamp information from the source. Therefore, we generate a dummy timestamp column for consistency.
 
 7. **Real / Fake Job Posting Prediction**
-    - Link: https://www.kaggle.com/shivamb/real-or-fake-fake-jobposting-prediction
-    - Feature info: Textual information and meta-information about the jobs
+    - Source URL: https://www.kaggle.com/shivamb/real-or-fake-fake-jobposting-prediction
+    - Source license: https://creativecommons.org/publicdomain/zero/1.0/
+    - Variables: Title, location, department, company, salary range, requirements, description, benefits, telecommuting. Most of the variables are categorical and free form text in nature.
     - Fraud category: Content Moderation
     - Provider: [Shivam Bansal](https://www.kaggle.com/shivamb) 
+    - Release date: 2020-02-29
+    - Description: This Kaggle dataset contains 18K job descriptions out of which about 800 are fake. The data consists of both textual information and meta-information about the jobs. The task is to train classification model to detect which job posts are fraudulent.
 
 8. **Vehicle Loan Default Prediction**
-    - Link: https://www.kaggle.com/avikpaul4u/vehicle-loan-default-prediction
-    - Feature info: numeric, categorical, classification(binary)
+    - Source URL: https://www.kaggle.com/avikpaul4u/vehicle-loan-default-prediction
+    - Source license: Unknown
+    - Variables: Loanee information, loan information, credit bureau data, and history.
     - Fraud category: Credit Risk
     - Provider: [Avik Paul](https://www.kaggle.com/avikpaul4u) 
-
+    - Release date: 2019-11-12
+    - Description: The task in this dataset is to determine the probability of vehicle loan default, particularly the risk of default on the first monthly installments. It contains data for 233k loans with 21.7% default rate.
+    
 9. **IP Blocklist**
-    - Link: http://cinsscore.com/list/ci-badguys.txt
-    - Feature info: Malicious IP address 
+    - Source URL: http://cinsscore.com/list/ci-badguys.txt
+    - Source license: Unknown
+    - Variables: The dataset contains IP address and label telling malicious or fake. A dummy categorical variable that has no relation label is added.
     - Fraud category: Malicious Traffic
     - Provider: [CINSscore.com](http://cinsscore.com)
+    - Release date: 2017-09-25
+    - Description: This dataset is made up from malicious IP address from cinsscore.com. To the list of malicious IP addresses, we added randomly generated IP address using Faker labeled as benign.
+    
 
 ## Citation
 ```

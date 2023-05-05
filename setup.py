@@ -12,7 +12,9 @@ setup(
     packages=find_packages(where='src', exclude=('test',)),
     package_dir={'': 'src'},
     include_package_data=True,
-    data_files=[('.',['src/fdb/versioned_datasets/ipblock/20220607.zip'])],
+    data_files=[('.',[
+        'src/fdb/versioned_datasets/ipblock/20220607.zip',
+    ])],
 
     # Enable build-time format checking
     check_format=False,

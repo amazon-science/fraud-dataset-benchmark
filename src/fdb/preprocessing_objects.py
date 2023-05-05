@@ -49,12 +49,11 @@ def load_data(key, load_pre_downloaded, delete_downloaded, add_random_values_if_
 
     elif key == 'ccfraud':
         obj = CCFraudPreProcessor(
-            key = key,
             train_percentage = 0.8,
             timestamp_col = 'time',
             label_col = 'class',
             event_id_col = None,
-            load_pre_downloaded = load_pre_downloaded
+            **common_kw
         )
 
     elif key == 'fraudecom':
