@@ -66,7 +66,6 @@ class BasePreProcessor(ABC):
             "LABEL_TIMESTAMP": True,
             "ENTITY_ID": True,
             "ENTITY_TYPE": True,
-            "ENTITY_ID": True,
             "EVENT_ID": True
             }
         ):
@@ -176,14 +175,14 @@ class BasePreProcessor(ABC):
         if self.timestamp_col is not None:
             self.df[_EVENT_TIMESTAMP] = pd.to_datetime(self.df[self.timestamp_col]).apply(lambda x: x.strftime(_TIMESTAMP_FORMAT))
             self.df.drop(self.timestamp_col, axis=1, inplace=True)
-        elif self.timestamp_col is None and self._add_random_values_if_real_na["EVENT_TIMESTAMP"]:
+        elif self.timestamp_col is None and self._add_random_values_if_real_na[_EVENT_TIMESTAMP]:
             self.df[_EVENT_TIMESTAMP] = self.df[_EVENT_LABEL].apply(
                 lambda x: fake.date_time_between(
                     start_date='-1y',   # think about making it to fixed date. vs from now?
                     end_date='now',
                     tzinfo=None).strftime(_TIMESTAMP_FORMAT))
         
-        if self._label_timestamp_col is None and self._add_random_values_if_real_na["LABEL_TIMESTAMP"]:
+        if self._label_timestamp_col is None and self._add_random_values_if_real_na[_LABEL_TIMESTAMP]:
             self.df[_LABEL_TIMESTAMP] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
         elif self._label_timestamp_col is not None:
             self.df[_LABEL_TIMESTAMP] = pd.to_datetime(self.df[self._label_timestamp_col]).apply(lambda x: x.strftime(_TIMESTAMP_FORMAT))
@@ -197,7 +196,7 @@ class BasePreProcessor(ABC):
         if self.event_id_col is not None:
             self.df.rename({self.event_id_col: _EVENT_ID}, axis=1, inplace=True)
             self.df[_EVENT_ID] = self.df[_EVENT_ID].astype(str)
-        elif self.event_id_col is None and self._add_random_values_if_real_na["EVENT_ID"]: # add fake one if not exist
+        elif self.event_id_col is None and self._add_random_values_if_real_na[_EVENT_ID]: # add fake one if not exist
             self.df[_EVENT_ID] = self.df[_EVENT_LABEL].apply(
                 lambda x: fake.uuid4())
 
@@ -205,7 +204,7 @@ class BasePreProcessor(ABC):
     def standardize_entity_id_col(self):
         if self.entity_id_col is not None:
             self.df.rename({self.entity_id_col: _ENTITY_ID}, axis=1, inplace=True)
-        elif self.entity_id_col is None and self._add_random_values_if_real_na["ENTITY_ID"]: # add fake one if not exist
+        elif self.entity_id_col is None and self._add_random_values_if_real_na[_ENTITY_ID]: # add fake one if not exist
             self.df[_ENTITY_ID] = self.df[_EVENT_LABEL].apply(
                 lambda x: fake.uuid4())
 
@@ -221,7 +220,8 @@ class BasePreProcessor(ABC):
         self.df.drop(self.features_to_drop, axis=1, inplace=True)
 
     def add_meta_data(self):
-        self.df[_ENTITY_TYPE] = 'user'
+        if self._add_random_values_if_real_na[_ENTITY_TYPE]: 
+            self.df[_ENTITY_TYPE] = 'user'
 
     def sort_by_timestamp(self):
         self.df.sort_values(by=_EVENT_TIMESTAMP, ascending=True, inplace=True)
@@ -254,8 +254,10 @@ class BasePreProcessor(ABC):
             self.train = self.df.sample(frac=self.train_percentage, random_state=_RANDOM_STATE)
             self.test = self.df.copy()[~self.df.index.isin(self.train.index)]
             self.test.reset_index(drop=True, inplace=True)
-            
-        self.test_labels = self.test[[_EVENT_LABEL, _EVENT_ID]]
+        
+        self.test_labels = self.test[[_EVENT_LABEL]]
+        if self.event_id_col is None and self._add_random_values_if_real_na[_EVENT_ID]:
+            self.test_labels[_EVENT_ID] = self.test[_EVENT_ID]
         self.test.drop([_EVENT_LABEL, _LABEL_TIMESTAMP], axis=1, inplace=True, errors="ignore")
 
 
@@ -459,7 +461,7 @@ class CCFraudPreProcessor(BasePreProcessor):
     def standardize_timestamp_col(self):
         self.df[_EVENT_TIMESTAMP] = self.df[self.timestamp_col].astype(float).apply(lambda x: CCFraudPreProcessor._add_minutes(x))        
         self.df.drop(self.timestamp_col, axis=1, inplace=True)
-        if self._add_random_values_if_real_na["LABEL_TIMESTAMP"]:
+        if self._add_random_values_if_real_na[_LABEL_TIMESTAMP]:
             self.df[_LABEL_TIMESTAMP] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
         
 class FraudecomPreProcessor(BasePreProcessor):
@@ -482,7 +484,7 @@ class FraudecomPreProcessor(BasePreProcessor):
         self.df.drop(self.timestamp_col, axis=1, inplace=True)
 
         # Also add _LABEL_TIMESTAMP to allow training of this dataset with TFI
-        if self._add_random_values_if_real_na["LABEL_TIMESTAMP"]:
+        if self._add_random_values_if_real_na[_LABEL_TIMESTAMP]:
             self.df[_LABEL_TIMESTAMP] = _DEFAULT_LABEL_TIMESTAMP # most recent date 
 
     def process_ip(self):
@@ -563,8 +565,10 @@ class SparknovPreProcessor(BasePreProcessor):
         self.test.drop(['seg'], axis=1, inplace=True)
         self.test = self.test.sample(n=20000, random_state=1)
         
-        self.test_labels = self.test[[_EVENT_LABEL, _EVENT_ID]]
-        self.test.drop([_EVENT_LABEL, _LABEL_TIMESTAMP], axis=1, inplace=True, errors='ignore')
+        self.test_labels = self.test[[_EVENT_LABEL]]
+        if self.event_id_col is None and self._add_random_values_if_real_na[_EVENT_ID]:
+            self.test_labels[_EVENT_ID] = self.test[_EVENT_ID]
+        self.test.drop([_EVENT_LABEL, _LABEL_TIMESTAMP], axis=1, inplace=True, errors="ignore")
 
 
 class TwitterbotPreProcessor(BasePreProcessor):
@@ -631,4 +635,4 @@ class IPBlocklistPreProcessor(BasePreProcessor):
     def preprocess(self):
         if self.version is None:
             super(IPBlocklistPreProcessor, self).preprocess()
-            self.add_dummy_col()                        
+            self.add_dummy_col()      

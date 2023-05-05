@@ -14,7 +14,6 @@ class FraudDatasetBenchmark(ABC):
             "LABEL_TIMESTAMP": True,
             "ENTITY_ID": True,
             "ENTITY_TYPE": True,
-            "ENTITY_ID": True,
             "EVENT_ID": True
             }):
         self.key = key
