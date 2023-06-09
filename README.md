@@ -1,13 +1,12 @@
 # FDB: Fraud Dataset Benchmark
 
-*By [Prince Grover](groverpr), [Zheng Li](zhengli0817), Jianbo Liu, [Jakub Zablocki](qbaza), [Hao Zhou](haozhouamzn), Julia Xu and Anqi Cheng*
+*By [Prince Grover](groverpr), [Zheng Li](zhengli0817), Julia Xu(SheliaXin), Justin Tittelfitz(jtittelfitz), Anqi Cheng, [Jakub Zablocki](qbaza), Jianbo Liu, and [Hao Zhou](haozhouamzn)*
 
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg?color=purple)](https://www.python.org/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
 
 
-
-The **Fraud Dataset Benchmark (FDB)** is a compilation of publicly available datasets relevant to **fraud detection** ([arXiv Link](https://arxiv.org/abs/2208.14417)). The FDB aims to cover a wide variety of fraud detection tasks, ranging from card not present transaction fraud, bot attacks, malicious traffic, loan risk and content moderation. The Python based data loaders from FDB provide dataset loading, standardized train-test splits and performance evaluation metrics. The goal of our work is to provide researchers working in the field of fraud and abuse detection a standardized set of benchmarking datasets and evaluation tools for their experiments. Using FDB tools we evaluate 4 AutoML pipelines including AutoGluon, H2O, Amazon Fraud Detector and Auto-sklearn across 9 different fraud detection datasets and discuss the results. 
+The **Fraud Dataset Benchmark (FDB)** is a compilation of publicly available datasets relevant to **fraud detection** ([arXiv Link](https://arxiv.org/abs/2208.14417)). The FDB aims to cover a wide variety of fraud detection tasks, ranging from card not present transaction fraud, bot attacks, malicious traffic, loan risk and content moderation. The Python based data loaders from FDB provide dataset loading, standardized train-test splits and performance evaluation metrics. The goal of our work is to provide researchers working in the field of fraud and abuse detection a standardized set of benchmarking datasets and evaluation tools for their experiments. Using FDB tools we We demonstrate several applications of FDB that are of broad interest for fraud detection, including feature engineering, comparison of supervised learning algorithms, label noise removal, class-imbalance treatment and semi-supervised learning. 
 
 
 ## Datasets used in FDB
