@@ -240,8 +240,8 @@ The numbers in the legend represent AUC-ROC from different models from our basel
 ## Citation
 ```
 @misc{grover2022fdb,
-      title={FDB: Fraud Dataset Benchmark}, 
-      author={Prince Grover and Zheng Li and Jianbo Liu and Jakub Zablocki and Hao Zhou and Julia Xu and Anqi Cheng},
+      title={Fraud Dataset Benchmark and Applications}, 
+      author={Prince Grover and Julia Xu and Justin Tittelfitz and Anqi Cheng and Zheng Li and Jianbo Liu and Jakub Zablocki and Hao Zhou},
       year={2022},
       eprint={2208.14417},
       archivePrefix={arXiv},
