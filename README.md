@@ -239,10 +239,10 @@ The numbers in the legend represent AUC-ROC from different models from our basel
 
 ## Citation
 ```
-@misc{grover2022fdb,
+@misc{grover2023fraud,
       title={Fraud Dataset Benchmark and Applications}, 
-      author={Prince Grover and Julia Xu and Justin Tittelfitz and Anqi Cheng and Zheng Li and Jianbo Liu and Jakub Zablocki and Hao Zhou},
-      year={2022},
+      author={Prince Grover and Julia Xu and Justin Tittelfitz and Anqi Cheng and Zheng Li and Jakub Zablocki and Jianbo Liu and Hao Zhou},
+      year={2023},
       eprint={2208.14417},
       archivePrefix={arXiv},
       primaryClass={cs.LG}
